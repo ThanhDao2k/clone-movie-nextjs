@@ -29,6 +29,13 @@ const contentStyle = {
     justifyContent: 'space-between',
     alignItems: "center"
 }
+const btnStyle = {
+    width: '200px',
+    color: 'white', fontSize: '16px', padding: '8px', fontWeight: 600,
+    backgroundColor: 'rgba(3, 37, 65, 1)',
+    border: 'none',
+    cursor: 'pointer'
+}
 
 function Header() {
     const route = useRouter()
@@ -42,11 +49,14 @@ function Header() {
             route.push("/")
         }
     }
+    const handleLogin = () => {
+        route.push("/login")
+    }
     return (
         <div style={headerStyle}>
             <div style={contentStyle}>
                 <AntMenu items={items} handleClick={handleClick} selected={selected}/>
-                <AntButton type="primary">Đăng nhập</AntButton>
+                <AntButton style={btnStyle} onClick={handleLogin}>Đăng nhập</AntButton>
             </div>
         </div>
     );
