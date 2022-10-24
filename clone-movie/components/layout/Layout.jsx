@@ -10,20 +10,13 @@ const containerStyle = {
     alignItems: 'center',
     width: '100vw',
 }
-const contentStyle = {
-    width: '70vw',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: "center"
-}
 
 function Layout({children}) {
     return (
         <div style={{position: 'relative', width: '100vw', height: '100vh'}}>
             <Header/>
             <div style={containerStyle}>
-                <div style={contentStyle}>
-                    {children}</div>
+                {children}
             </div>
             <Footer/>
         </div>

@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {useRouter} from "next/router";
 import AntMenu from "../ui/antMenu";
 import AntButton from "../ui/AntButton";
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import {Box, IconButton, InputAdornment, TextField} from "@mui/material";
 
 const items = [
     {id: 'home', label: 'Home'},
@@ -40,6 +42,7 @@ const btnStyle = {
 function Header() {
     const route = useRouter()
     const [selected, setSelected] = useState('')
+    const [search, setSearch] = useState('')
 
     const handleClick = (e) => {
         setSelected(e.key)
@@ -52,13 +55,42 @@ function Header() {
     const handleLogin = () => {
         route.push("/login")
     }
+    const handleSearch = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault()
+            route.push("/search")
+        }
+        console.log(e.key)
+    }
     return (
-        <div style={headerStyle}>
-            <div style={contentStyle}>
+        <Box sx={headerStyle}>
+            <Box sx={contentStyle}>
                 <AntMenu items={items} handleClick={handleClick} selected={selected}/>
-                <AntButton style={btnStyle} onClick={handleLogin}>Đăng nhập</AntButton>
-            </div>
-        </div>
+                <Box>
+                    <AntButton style={btnStyle} onClick={handleLogin}>Đăng nhập</AntButton>
+                    <TextField
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <IconButton edge="end">
+                                        <SearchOutlinedIcon sx={{color: 'white'}}/>
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                        variant="standard"
+                        sx={{
+                            color: 'white', '& .MuiInputBase-input': {
+                                color: 'white'
+                            }
+                        }}
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                        onKeyPress={handleSearch}
+                    />
+                </Box>
+            </Box>
+        </Box>
     );
 }
 
