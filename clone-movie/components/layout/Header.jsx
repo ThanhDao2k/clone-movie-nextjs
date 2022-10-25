@@ -1,12 +1,23 @@
 import React, {useState} from 'react';
 import {useRouter} from "next/router";
-import AntMenu from "../ui/antMenu";
 import AntButton from "../ui/AntButton";
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import {Box, IconButton, InputAdornment, TextField} from "@mui/material";
+import MuiMenu from "../ui/MuiMenu";
 
-const items = [
-    {id: 'home', label: 'Home'},
+export const items = [
+    {
+        id: 'home', label: 'Home',
+        // children: [
+        //     {
+        //         key: "children1", value: "children1"
+        //     }, {
+        //         key: "children2", value: "children2"
+        //     }, {
+        //         key: "children3", value: "children3"
+        //     }
+        // ]
+    },
     {id: 'movies', label: 'movies'},
     {id: 'tvShow', label: 'TV show'},
 ]
@@ -62,10 +73,20 @@ function Header() {
         }
         console.log(e.key)
     }
+    const onClickItemChildren = (key) => {
+        console.log("onClickItemChildren", key)
+    }
+    const onClickItem = (key) => {
+        if (key !== "home") {
+            route.push(`${key}`)
+        } else {
+            route.push("/")
+        }
+    }
     return (
         <Box sx={headerStyle}>
             <Box sx={contentStyle}>
-                <AntMenu items={items} handleClick={handleClick} selected={selected}/>
+                <MuiMenu items={items} onClickItemChildren={onClickItemChildren} onClickItem={onClickItem}/>
                 <Box>
                     <AntButton style={btnStyle} onClick={handleLogin}>Đăng nhập</AntButton>
                     <TextField

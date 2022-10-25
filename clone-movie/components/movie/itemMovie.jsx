@@ -14,7 +14,7 @@ function ItemMovie({item}) {
                         padding: 0
                     }
                 }}>
-                    <Img url={` https://image.tmdb.org/t/p/original/${item.poster_path}`} width={150}
+                    <Img url={item.poster_path} width={150}
                          height={225}/>
                     <Box sx={{padding: '5px 15px'}}>
                         <Typography
