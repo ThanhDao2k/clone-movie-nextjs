@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Header from "./Header";
 import Footer from "./footer";
+import {Box} from "@mui/material";
+import {getLocalStorage} from "../Logic/common";
 
 const containerStyle = {
     position: 'absolute',
@@ -12,14 +14,15 @@ const containerStyle = {
 }
 
 function Layout({children}) {
+    const d = getLocalStorage('authentication')
     return (
-        <div style={{position: 'relative', width: '100vw', height: '100vh'}}>
-            <Header/>
-            <div style={containerStyle}>
+        <Box style={{position: 'relative', width: '100vw', height: '100vh'}}>
+            <Header isSuccess={d && d?.success}/>
+            <Box style={containerStyle}>
                 {children}
-            </div>
+            </Box>
             <Footer/>
-        </div>
+        </Box>
     );
 }
 

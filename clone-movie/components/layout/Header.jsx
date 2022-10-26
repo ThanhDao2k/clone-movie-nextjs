@@ -2,25 +2,11 @@ import React, {useState} from 'react';
 import {useRouter} from "next/router";
 import AntButton from "../ui/AntButton";
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import {Box, IconButton, InputAdornment, TextField} from "@mui/material";
+import {Box, Button, IconButton, InputAdornment, TextField} from "@mui/material";
 import MuiMenu from "../ui/MuiMenu";
+import {removeLocalStorage} from "../Logic/common";
+import {listMenu} from "../Logic/listKey";
 
-export const items = [
-    {
-        id: 'home', label: 'Home',
-        // children: [
-        //     {
-        //         key: "children1", value: "children1"
-        //     }, {
-        //         key: "children2", value: "children2"
-        //     }, {
-        //         key: "children3", value: "children3"
-        //     }
-        // ]
-    },
-    {id: 'movies', label: 'movies'},
-    {id: 'tvShow', label: 'TV show'},
-]
 
 const headerStyle = {
     display: 'flex',
@@ -50,19 +36,10 @@ const btnStyle = {
     cursor: 'pointer'
 }
 
-function Header() {
+function Header({isSuccess}) {
     const route = useRouter()
-    const [selected, setSelected] = useState('')
     const [search, setSearch] = useState('')
 
-    const handleClick = (e) => {
-        setSelected(e.key)
-        if (e.key !== "home") {
-            route.push(`${e.key}`)
-        } else {
-            route.push("/")
-        }
-    }
     const handleLogin = () => {
         route.push("/login")
     }
@@ -74,7 +51,7 @@ function Header() {
         console.log(e.key)
     }
     const onClickItemChildren = (key) => {
-        console.log("onClickItemChildren", key)
+        route.push(`/movies/${key}`)
     }
     const onClickItem = (key) => {
         if (key !== "home") {
@@ -83,12 +60,19 @@ function Header() {
             route.push("/")
         }
     }
+    const handleLogout = () => {
+        removeLocalStorage('authentication')
+        route.push("/")
+    }
     return (
         <Box sx={headerStyle}>
             <Box sx={contentStyle}>
-                <MuiMenu items={items} onClickItemChildren={onClickItemChildren} onClickItem={onClickItem}/>
+                <MuiMenu items={listMenu} onClickItemChildren={onClickItemChildren} onClickItem={onClickItem}/>
                 <Box>
-                    <AntButton style={btnStyle} onClick={handleLogin}>Đăng nhập</AntButton>
+                    {
+                        isSuccess ? <Button onClick={handleLogout}>Đăng xuất</Button> :
+                            <AntButton style={btnStyle} onClick={handleLogin}>Đăng nhập</AntButton>
+                    }
                     <TextField
                         InputProps={{
                             startAdornment: (

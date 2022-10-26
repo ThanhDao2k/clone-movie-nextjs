@@ -15,3 +15,25 @@ export const getListDepartment = (list) => {
 export const generateList = (list, value) => {
     return list.filter(item => item.department === value)
 }
+
+export const setLocalStorage = (key, value) => {
+    return localStorage.setItem(key, JSON.stringify(value))
+}
+export const getLocalStorage = (key) => {
+    if (typeof window !== 'undefined') {
+        const data = localStorage.getItem(key)
+        return data && JSON.parse(data)
+    }
+}
+export const removeLocalStorage = (key) => {
+    return localStorage.removeItem(key)
+}
+export const convertObjectToArray = (object) => {
+    const convert = Object.entries(object)
+    return convert.map(item => {
+        return {
+            id: item[1],
+            name: item[0]
+        }
+    })
+}
