@@ -9,7 +9,7 @@ const bodyStyle = {
     padding: '30px 40px'
 }
 const fetcher = (url) => fetch(url).then(res => res.json())
-const url = `${baseUrl}movie/popular?api_key=${apiKey}&language=en-US&page=`
+const url = `${baseUrl}tv/popular?api_key=${apiKey}&language=en-US&page=`
 
 function Popular() {
     const [page, setPage] = useState(1)

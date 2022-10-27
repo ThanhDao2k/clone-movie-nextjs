@@ -14,7 +14,7 @@ function MuiItemMenu({item, onClickItem, onClickItemChildren}) {
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
-        if(!children){
+        if (!children) {
             onClickItem(item.id)
         }
     };
@@ -23,7 +23,7 @@ function MuiItemMenu({item, onClickItem, onClickItemChildren}) {
     };
 
     return (
-        <Box key={id} >
+        <Box key={id}>
             <Button onClick={handleClick}><Typography sx={textStyle}
                                                       color='white'>{label}</Typography></Button>
             {

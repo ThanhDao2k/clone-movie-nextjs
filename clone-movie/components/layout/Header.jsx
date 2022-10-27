@@ -48,10 +48,16 @@ function Header({isSuccess}) {
             e.preventDefault()
             route.push("/search")
         }
-        console.log(e.key)
     }
+
+    console.log(route)
     const onClickItemChildren = (key) => {
-        route.push(`/movies/${key}`)
+        if (key.substring(0, 3) === "tv_") {
+            route.push(`/tvShow/${key.substring(3)}`)
+        } else {
+
+            route.push(`/movies/${key}`)
+        }
     }
     const onClickItem = (key) => {
         if (key !== "home") {
@@ -62,6 +68,7 @@ function Header({isSuccess}) {
     }
     const handleLogout = () => {
         removeLocalStorage('authentication')
+        removeLocalStorage('session_id')
         route.push("/")
     }
     return (

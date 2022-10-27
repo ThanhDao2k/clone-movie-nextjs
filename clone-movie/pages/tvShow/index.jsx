@@ -12,7 +12,7 @@ const contentStyle = {
     width: '70vw',
 }
 
-function TvShow(props) {
+function Index(props) {
     return (
         <Box sx={containerStyle}>
             <Box sx={contentStyle}>
@@ -23,4 +23,4 @@ function TvShow(props) {
     );
 }
 
-export default TvShow;
+export default Index;

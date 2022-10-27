@@ -46,5 +46,20 @@ export const listMenu = [
             },
         ]
     },
-    {id: 'tvShow', label: 'TV show'},
+    {
+        id: 'tvShow', label: 'TV show', children: [
+            {
+                key: 'tv_popular', value: 'Popular'
+            },
+            {
+                key: 'tv_topRated', value: 'Top Rated'
+            },
+            {
+                key: 'tv_upcoming', value: 'Up Coming'
+            },
+            {
+                key: 'tv_nowPlaying', value: 'Now Playing'
+            },
+        ]
+    },
 ]

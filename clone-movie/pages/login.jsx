@@ -5,7 +5,9 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup'
 import {useRouter} from "next/router";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
-import {setLocalStorage} from "../components/Logic/common";
+import useSWR from "swr";
+import {apiKey, baseUrl} from "../components/api/listUrl";
+import {getLocalStorage, setLocalStorage} from "../components/Logic/common";
 
 const contentStyle = {
     width: '70vw', display: 'flex', justifyContent: 'center', alignItems: "center", flexDirection: 'column'
@@ -20,8 +22,9 @@ const formStyle = {
     height: '100%'
 }
 const fetcher = (url) => fetch(url).then(res => res.json())
-const url = 'https://api.themoviedb.org/3/authentication/token/new?api_key=e9e9d8da18ae29fc430845952232787c'
-const urlLogin = 'https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=c32124e2da2fe228e1a6a1ad3f4447b8'
+const url = `${baseUrl}authentication/token/new?api_key=${apiKey}`
+const urlLogin = `${baseUrl}authentication/token/validate_with_login?api_key=${apiKey}`
+const urlSession = `${baseUrl}authentication/session/new?api_key=${apiKey}`
 
 const SignupSchema = yup.object().shape({
     username: yup.string().required(),
@@ -33,23 +36,30 @@ const postFetcher = (url, data) => fetch(url, {
     body: JSON.stringify(data)
 }).then(res => res.json())
 
-function Login({guestSession, urlGuestSession}) {
+function Login({guestSession}) {
     const {register, handleSubmit, formState: {errors}} = useForm({
         resolver: yupResolver(SignupSchema)
     });
-    const {request_token} = guestSession
+    const {data: token} = useSWR(url, fetcher)
 
     const router = useRouter()
     const onSubmit = data => {
-        const params = {request_token, ...data}
-        postFetcher(urlLogin, params).then(r => {
-            if (r.success) {
-                setLocalStorage('authentication', r)
-                router.push('/')
-            } else {
-                window.alert(r.status_message)
-            }
-        })
+        if (token) {
+            const {request_token} = token
+            const params = {request_token, ...data}
+            postFetcher(urlLogin, params).then(r => {
+                if (r.success) {
+                    const {request_token} = r
+                    setLocalStorage('authentication',r)
+                    postFetcher(urlSession, {request_token}).then(d => {
+                        setLocalStorage('session_id', d.session_id)
+                    })
+                    router.push('/')
+                } else {
+                    window.alert(r.status_message)
+                }
+            })
+        }
     }
     const [isShow, setIsShow] = useState(false)
     const handleClickShowPassword = () => {
@@ -99,13 +109,6 @@ function Login({guestSession, urlGuestSession}) {
 
     )
         ;
-}
-
-export async function getServerSideProps() {
-    const data = await fetcher(url)
-    return {
-        props: {guestSession: data},
-    };
 }
 
 export default Login;
