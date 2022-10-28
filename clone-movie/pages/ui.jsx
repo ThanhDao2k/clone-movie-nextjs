@@ -1,26 +1,42 @@
 import React, {useState} from 'react';
-import MuiMenu from "../components/ui/MuiMenu";
-import {items} from "../components/layout/Header";
-import MuiTab from "../components/ui/MuiTab";
-import {Typography} from "@mui/material";
+import {Box, Button, FormControl, Select} from "@mui/material";
 
-
+const names = ['hihi', 'haha', 'kiki',]
 
 function Ui(props) {
-
-    const [value, setValue] = useState('1');
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
+    const [personName, setPersonName] = useState([]);
+    const handleChangeMultiple = (event) => {
+        const {options} = event.target;
+        const value = [];
+        for (let i = 0, l = options.length; i < l; i += 1) {
+            if (options[i].selected) {
+                value.push(options[i].value);
+            }
+        }
+        setPersonName(value);
     };
-    return (
-        <div>
+    const [open, setOpen] = useState(false)
 
-            <MuiMenu items={items}/>
-            <MuiTab list={listTab} value={value} handleChange={handleChange}>
-                <Typography>{value}</Typography>
-            </MuiTab>
-        </div>
+    return (
+        <Box>
+            <FormControl>
+                <Button>test</Button>
+                <Select multiple
+                        native
+                        value={personName}
+                        onChange={handleChangeMultiple}
+                        label="Native"
+                        inputProps={{
+                            id: 'select-multiple-native',
+                        }}>
+                    {names.map((name) => (
+                        <option key={name} value={name}>
+                            {name}
+                        </option>
+                    ))}
+                </Select>
+            </FormControl>
+        </Box>
     );
 }
 

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Img from "../../../components/ui/Img";
 import {Box, IconButton, Typography} from "@mui/material";
-import {changeTime, convertObjectToArray} from "../../../components/Logic/common";
+import {changeTime, convertObjectToArray, getLocalStorage} from "../../../components/Logic/common";
 import ItemCasts from "../../../components/casts/ItemCasts";
 import {useRouter} from "next/router";
 import MuiRate from "../../../components/ui/MuiRate";
@@ -11,6 +11,8 @@ import {listSocialNetWorks, listTab} from "../../../components/Logic/listKey";
 import TabPanel from "@mui/lab/TabPanel";
 import moment from "moment";
 import {apiKey, baseUrl} from "../../../components/api/listUrl";
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import {postFetcher} from "../../login";
 
 export const getStaticPaths = async () => {
     const res = await fetch('https://api.themoviedb.org/3/movie/popular?api_key=e9e9d8da18ae29fc430845952232787c&language=en-US&page=2');
@@ -52,7 +54,7 @@ export const getStaticProps = async ({params}) => {
     }
 }
 const ReviewFilm = ({item}) => {
-    const {author, author_details, content, created_at, updated_at} = item
+    const {author_details, content, created_at} = item
     return <Box
         sx={{display: 'flex', flexDirection: 'row', alignItems: 'top', marginBottom: '10px', marginTop: '10px'}}>
         <MuiAvatar url={author_details.avatar_path} width='56px' height="56px"/>
@@ -71,8 +73,7 @@ const ItemSocialNetwork = ({item, onClick}) => {
     </IconButton>
 }
 
-function movie({movie, video, details, casts, recommendations, listSocialNetWork}) {
-    console.log("convertObjectToArray: ", convertObjectToArray(listSocialNetWork))
+function movie({movie, details, casts}) {
     const route = useRouter()
     const castsSort = casts.sort((a, b) => b.popularity - a.popularity)
     const newCasts = castsSort.filter(casts => casts.popularity > 15)
@@ -89,6 +90,14 @@ function movie({movie, video, details, casts, recommendations, listSocialNetWork
         // if (typeof window !== 'undefined' && fil) {
         //     window.open(`${data.baseUrl}/${fil[0].id}`)
         // }
+    }
+    const account_id = getLocalStorage('account_id')
+    const session_id = getLocalStorage('session_id')
+    const {moviesID} = route.query
+    const handleFavorite = () => {
+        const param = {media_type: 'movie', media_id: moviesID, favorite: true}
+        console.log(param)
+        postFetcher(`${baseUrl}account/${account_id}/favorite?api_key=${apiKey}&session_id=${session_id}`, param).then(r => console.log(r))
     }
     return (<>
         {movie ? <Box
@@ -155,6 +164,9 @@ function movie({movie, video, details, casts, recommendations, listSocialNetWork
                 </Box>
                 <Box sx={{flex: 1}}>
                     <Typography>Thông tin</Typography>
+                    <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                        <IconButton onClick={handleFavorite}><FavoriteBorderOutlinedIcon/></IconButton>
+                    </Box>
                     <Box
                         sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '20px'}}>
                         {listSocialNetWorks.map(item => <ItemSocialNetwork

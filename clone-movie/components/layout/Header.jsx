@@ -6,7 +6,8 @@ import {Box, Button, IconButton, InputAdornment, TextField} from "@mui/material"
 import MuiMenu from "../ui/MuiMenu";
 import {removeLocalStorage} from "../Logic/common";
 import {listMenu} from "../Logic/listKey";
-
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import Search from "../search/Search";
 
 const headerStyle = {
     display: 'flex',
@@ -46,11 +47,9 @@ function Header({isSuccess}) {
     const handleSearch = (e) => {
         if (e.key === "Enter") {
             e.preventDefault()
-            route.push("/search")
+            return <Search name={search}/>
         }
     }
-
-    console.log(route)
     const onClickItemChildren = (key) => {
         if (key.substring(0, 3) === "tv_") {
             route.push(`/tvShow/${key.substring(3)}`)
@@ -80,6 +79,8 @@ function Header({isSuccess}) {
                         isSuccess ? <Button onClick={handleLogout}>Đăng xuất</Button> :
                             <AntButton style={btnStyle} onClick={handleLogin}>Đăng nhập</AntButton>
                     }
+                    <IconButton color="primary"
+                                onClick={() => route.push("/favorite")}><FavoriteBorderIcon/></IconButton>
                     <TextField
                         InputProps={{
                             startAdornment: (
@@ -100,6 +101,7 @@ function Header({isSuccess}) {
                         onChange={e => setSearch(e.target.value)}
                         onKeyPress={handleSearch}
                     />
+
                 </Box>
             </Box>
         </Box>

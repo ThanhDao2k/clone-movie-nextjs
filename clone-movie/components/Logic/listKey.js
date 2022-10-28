@@ -17,34 +17,30 @@ export const listTab = [
     {key: 'tab3', label: " tab 3"},
     {key: 'tab4', label: " tab 4"},
 ]
+export const listTabFavorite = [
+    {key: 'movies', label: "Movies"},
+    {key: 'tvShow', label: "TV Show"},
+]
 export const listMenu = [
     {
         id: 'home', label: 'Home',
-        // children: [
-        //     {
-        //         key: "children1", value: "children1"
-        //     }, {
-        //         key: "children2", value: "children2"
-        //     }, {
-        //         key: "children3", value: "children3"
-        //     }
-        // ]
     },
     {
-        id: 'movies', label: 'movies', children: [
-            {
-                key: 'popular', value: 'Popular'
-            },
-            {
-                key: 'topRated', value: 'Top Rated'
-            },
-            {
-                key: 'upcoming', value: 'Up Coming'
-            },
-            {
-                key: 'nowPlaying', value: 'Now Playing'
-            },
-        ]
+        id: 'movies', label: 'movies',
+        // children: [
+        //     {
+        //         key: 'popular', value: 'Popular'
+        //     },
+        //     {
+        //         key: 'topRated', value: 'Top Rated'
+        //     },
+        //     {
+        //         key: 'upcoming', value: 'Up Coming'
+        //     },
+        //     {
+        //         key: 'nowPlaying', value: 'Now Playing'
+        //     },
+        // ]
     },
     {
         id: 'tvShow', label: 'TV show', children: [

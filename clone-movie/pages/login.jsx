@@ -30,7 +30,7 @@ const SignupSchema = yup.object().shape({
     username: yup.string().required(),
     password: yup.string().required(),
 });
-const postFetcher = (url, data) => fetch(url, {
+export const postFetcher = (url, data) => fetch(url, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(data)
