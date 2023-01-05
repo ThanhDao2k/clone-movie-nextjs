@@ -1,9 +1,10 @@
 {
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "airbnb", "prettier", "prettier/react"
   ],
-  "parser": "babel-eslint",
+  "parser": "react-scripts/node_modules/babel-eslint",
   "plugins": [
     "react",
     "prettier"
@@ -16,6 +17,8 @@
     }
   },
   "env": {
+    "browser": true,
+    "commonjs": true,
     "es6": true,
     "node": true
   },
