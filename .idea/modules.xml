@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/learn-nextjs-todo-app.iml" filepath="$PROJECT_DIR$/.idea/learn-nextjs-todo-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/clone-movie.iml" filepath="$PROJECT_DIR$/.idea/clone-movie.iml" />
     </modules>
   </component>
 </project>
